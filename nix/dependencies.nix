@@ -19,7 +19,8 @@
 
 { pkgs, python, lib ? pkgs.lib, stdenv ? pkgs.stdenv, cudaSupport ? false }:
 let precommit = (import ./pkgs/pre-commit/pre-commit.nix) { inherit python; };
-    minknow = (pkgs.callPackage ./pkgs/minknow/minknow.nix) { inherit python; };
+    minknow_api = (pkgs.callPackage ./pkgs/minknow-api/minknow.nix) { inherit python; };
+    pytype = (pkgs.callPackage ./pkgs/pytype/pytype.nix) { inherit python; };
 in with python.pkgs; rec {
 
   ###########################################################################################
@@ -30,31 +31,12 @@ in with python.pkgs; rec {
   ###########################################################################################
 
   run = [
-    # Numerical computation library
     numpy
-    # Data manipulation and analysis
-    pandas
-    # Hierarchical Data Format utilities
-    h5py
-    # Parallel computing library
-    dask
-    # Charts and plotting library
     matplotlib
     tkinter
-    # Data visualization
-    seaborn
-    # Interactive computing
-    notebook
-    # For interactive builds
-    jupyter
-    # Neural networks
-    torchvision
-
     # MinKnow
-    minknow
-
-  ] ++ lib.optional (cudaSupport) pytorchWithCuda
-    ++ lib.optional (!cudaSupport) pytorchWithoutCuda;
+    minknow_api
+  ];
 
   ###########################################################################################
   #
@@ -96,6 +78,10 @@ in with python.pkgs; rec {
     pytestrunner
     # Test code coverage generator
     pytestcov
+    # Type-checking
+    mypy
+    #pytest-mypy
+    #pytype
   ];
 
   ###########################################################################################
