@@ -1,5 +1,5 @@
-# minknowapi
-Oxford Nanopore MinKnow API wrapper
+# minKNOWER
+Python Oxford Nanopore MinKnow API wrapper
 
 ## Setup
 ```
